@@ -1,0 +1,89 @@
+body {
+  background: black;
+}
+
+canvas{
+	width: 1280px;
+	height: 720px;
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#bg{
+  background: url("assets/bg1.png");
+}
+
+#title{
+	background: url("assets/title.png");
+}
+
+@keyframes fadeINTRO {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } 
+}
+
+@keyframes takeDamage {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes enemyTakeDamage {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  20% { opacity: 0; }
+  30% { opacity: 1; }
+  40% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 0; }
+  70% { opacity: 1; }
+  80% { opacity: 0; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes death {
+  20% {
+    transform: rotate(5deg) translate3d(-1px, 0, 0);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: rotate(0deg) translate3d(-1px, 0, 0);
+    opacity: 1;
+  }
+
+  60% {
+    transform: rotate(-5deg) translate3d(-1px, 0, 0);
+    opacity: 0.5;
+  }
+
+  90% {
+    transform: rotate(0deg) translate3d(-1px, 0, 0);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: rotate(0deg)  translate3d(-1px, 0, 0);
+    opacity: 0;
+  }
+}
