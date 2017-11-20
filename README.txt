@@ -1,3 +1,5 @@
+This game is still a work in progress!
+
 #Instructions
 
   Download and open JRPG.html
