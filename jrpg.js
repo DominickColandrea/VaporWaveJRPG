@@ -70,7 +70,7 @@ let options =["Run","Guard","Item","Magic","Attack"];
 
 let enemy1={
 	name:"Bloon-Boi",
-	pages:[1,2,3],
+	pages:[1,2],
 	health:3,
 	totalHealth:3,
 	damage:1,
@@ -83,7 +83,7 @@ let enemy1={
 
 let enemy2={
 	name:"LadBog",
-	pages:[1,2,3],
+	pages:[1,2],
 	health:1,
 	totalHealth:1,
 	damage:1,
@@ -96,7 +96,7 @@ let enemy2={
 
 let enemy3={
 	name:"星",
-	pages:[1,2,3],
+	pages:[1,2],
 	health:5,
 	totalHealth:5,
 	damage:1,
@@ -105,6 +105,32 @@ let enemy3={
 	exp:10,
 	intro:true,
 	item:"Depression Box"
+}
+
+let enemy4={
+	name:"TordLord",
+	pages:[4,5,6,7],
+	health:12,
+	totalHealth:12,
+	damage:3,
+	hitChance:80,
+	armor:1,
+	exp:35,
+	intro:true,
+	item:"Depression Box"
+}
+
+let enemy5={ //add enemy5 info and add to encounter
+	name:"Narcoleptic Guest",
+	pages:[4,5,6,7],
+	health:1,
+	totalHealth:1,
+	damage:5,
+	hitChance:80,
+	armor:6,
+	exp:27,
+	intro:true,
+	item:"Essence of Capitalism"
 }
 
 let game ={
@@ -146,6 +172,15 @@ let game ={
 function movementOverworld(){
 	if (!player.inBattle) {
 		switch(true){
+			
+			case attack:
+				draw.drawPlayer();
+				if (player.page ==3 && player.x >=535 && player.x <= 595 && player.y >= 145 && player.y <= 200) {
+					player.currentHealth = player.totalHealth;
+					player.currentMana = player.totalMana;
+					console.log("healz");
+				}
+			break;
 			case kstate[0]:
 				collisionLEFT(player.page);
 				battle();
@@ -541,7 +576,7 @@ function itemUse(){
 }//itemUse
 
 function battle(){
-	if (player.alive==true && player.counter>=300 && Math.floor((Math.random() * 100) + 1)>=75) {
+	if (player.alive==true && player.page!=3 && player.counter>=300 && Math.floor((Math.random() * 100) + 1)>=75) {
 		enemyRNG =Math.floor((Math.random() * 100) + 1);
 		player.counter=0;
 		player.inBattle =true;
@@ -553,8 +588,16 @@ function battle(){
 function collisionLEFT(page){
 	switch(true){
 		case page == 1:
+		case page == 2:
 	if (player.x<=1) {
 		pageChangeLeft();
+	}
+		break;
+
+		case page == 3:
+	if (player.x<=1) {
+		draw.drawPlayer();
+		return false;
 	}
 		break;
 	}
@@ -574,6 +617,7 @@ function collisionRIGHT(page){
 		break;
 
 		case page == 2:
+		case page == 3:
 	if (player.x>=1185) {
 		pageChangeRight();
 	}
@@ -588,8 +632,16 @@ player.counter++;
 function collisionUP(page){
 	switch(true){
 		case page == 1:
+		case page == 2:
 	if (player.y<=1) {
 		draw.drawPlayer();
+		return false;
+	}
+		break;
+
+		case page == 3:
+	if (player.y<=1) {
+		draw.drawPlayer(); //add pagechangeUp
 		return false;
 	}
 		break;
@@ -603,6 +655,8 @@ player.counter++;
 function collisionDOWN(page){
 	switch(true){
 		case page == 1:
+		case page == 2:
+		case page == 3:
 	if (player.y>=620) {
 		draw.drawPlayer();
 		return false;
@@ -622,6 +676,11 @@ function pageChangeLeft(){
 			player.x=1185;
 			player.page=2;
 		break;
+		case player.page == 2:
+			$("#bg").css("background", "url(assets/bg3.png)");
+			player.x=1185;
+			player.page=3;
+		break;
 	}
 }//end pageChangeLeft
 
@@ -631,6 +690,11 @@ function pageChangeRight(){
 			$("#bg").css("background", "url(assets/bg1.png)");
 			player.x=1;
 			player.page=1;
+		break;
+		case player.page == 3:
+			$("#bg").css("background", "url(assets/bg2.png)");
+			player.x=1;
+			player.page=2;
 		break;
 	}
 }//end pageChangeLeft
@@ -722,7 +786,7 @@ function ui(){
 function enemyDraw(){
 	if (player.inBattle) {
 		utx.font = "italic 60px impact";
-	if (player.page<=3 && !player.page<=0) { //meh on syntax
+	if (player.page>=1 && player.page<=2 && !player.page<=0) { //meh on syntax
 		if (enemyRNG<=33) {
 		etx.drawImage(img[6],380,80);
 		if (!enemyLoaded) {
@@ -754,6 +818,29 @@ function enemyDraw(){
 		}
 	}
 }
+	else if (player.page>=4 && player.page<=7 && !player.page<=0) { //meh on syntax
+		if (enemyRNG<=33) {
+		etx.drawImage(img[9],450,80);
+		if (!enemyLoaded) {
+			for(let k in enemy4) enemy[k]=enemy4[k];
+			enemyLoaded =true;
+		}
+		if (enemy.intro) {
+		let battleIntro = utx.fillText(enemy4.name + " appeared!",410,580);
+		}
+	}
+		else if (enemyRNG<=66) {
+		etx.drawImage(img[10],450,80);
+		if (!enemyLoaded) {
+			for(let k in enemy5) enemy[k]=enemy5[k];
+			enemyLoaded =true;
+		}
+		if (enemy.intro) {
+		let battleIntro = utx.fillText(enemy5.name + " appeared!",350,580);
+		}
+	}
+	///////////////////////else if enemy
+	}
 }
 }//end enemyDraw
 
@@ -830,7 +917,7 @@ function death(){
 
 function levelUp(){
 ttx.fillStyle = '#C6ACC9';
-	player.levelCap+= (player.levelCap+13*1.3); //check on these
+	player.levelCap+= ((player.levelCap+13)*1.3); //check on these
 	player.damage+= Math.floor((Math.random() * 3) + 1); //check on these
 	player.magicDamage+= Math.floor((Math.random() * 3) + 1);
 	player.totalHealth+= Math.floor((Math.random() * 10) + 5); //check on these
