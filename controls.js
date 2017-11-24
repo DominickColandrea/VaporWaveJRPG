@@ -41,7 +41,9 @@ preload(
     "assets/selectArrow.png",
     "assets/enemy1.png", //enemies
     "assets/enemy2.png",
-    "assets/enemy3.png"
+    "assets/enemy3.png",
+    "assets/enemy4.png",
+    "assets/enemy5.png"
 );
 
         if(canGame()) {
