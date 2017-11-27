@@ -641,7 +641,7 @@ function collisionUP(page){
 
 		case page == 3:
 	if (player.y<=1) {
-		draw.drawPlayer(); //add pagechangeUp
+		pageChangeUp();
 		return false;
 	}
 		break;
@@ -660,6 +660,11 @@ function collisionDOWN(page){
 	if (player.y>=620) {
 		draw.drawPlayer();
 		return false;
+	}
+		break;
+		case page == 4:
+	if (player.y>=720) {
+		pageChangeDown();
 	}
 		break;
 	}
@@ -693,11 +698,34 @@ function pageChangeRight(){
 		break;
 		case player.page == 3:
 			$("#bg").css("background", "url(assets/bg2.png)");
+			player.counter=0;
 			player.x=1;
 			player.page=2;
 		break;
 	}
 }//end pageChangeLeft
+
+function pageChangeUp(){
+	switch(true){
+		case player.page == 3:
+			$("#bg").css("background", "url(assets/bg4.png)");
+			player.counter=0;
+			player.y=680;
+			player.page=4;
+		break;
+	}
+}//end pageChangeUp
+
+function pageChangeDown(){
+	switch(true){
+		case player.page == 4:
+			$("#bg").css("background", "url(assets/bg3.png)");
+			player.counter=0;
+			player.y=1;
+			player.page=3;
+		break;
+	}
+}//end pageChangeDown
 
 function ui(){
 	if (player.inBattle) {
@@ -871,10 +899,10 @@ else if (enemyItemDropRNG>=90) {
 else{
 enemyAttackRNG = Math.floor((Math.random() * 100) + 0);
 if (enemyAttackRNG<=enemy.hitChance) {
-	$("#ui").css("animation", "takeDamage .9s linear");
+	$("#ui").css("animation", "takeDamage .5s linear");
 			delayTakeDamage(function(){
 		$("#ui").css("animation", "none");
-		},900);
+		},500);
 	if (!player.guarding) {
 		let totalEDPS = enemy.damage - player.armor.toString();
 		player.currentHealth-= enemy.damage - player.armor;
