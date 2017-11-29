@@ -830,7 +830,7 @@ function ui(){
 function enemyDraw(){
 	if (player.inBattle) {
 		utx.font = "italic 60px impact";
-	if (player.page>=1 && player.page<=2 && !player.page<=0) { //meh on syntax
+	if (player.page ==1 || player.page==2) { //meh on syntax
 		if (enemyRNG<=33) {
 		etx.drawImage(img[6],380,80);
 		if (!enemyLoaded) {
