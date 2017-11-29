@@ -580,8 +580,11 @@ function battle(){
 		enemyRNG =Math.floor((Math.random() * 100) + 1);
 		player.counter=0;
 		player.inBattle =true;
+		$("#ui").css("animation", "battleIntro 1s linear");
+		delayTakeDamage(function(){
 		player.canAttack = true;
 		console.log("BATTLE");
+	},2000)
 	}
 }//end battle
 
@@ -663,7 +666,7 @@ function collisionDOWN(page){
 	}
 		break;
 		case page == 4:
-	if (player.y>=720) {
+	if (player.y>=700) {
 		pageChangeDown();
 	}
 		break;
@@ -932,7 +935,7 @@ function death(){
 
 		delayAttack(function(){
 		ttx.clearRect(0,0,1280,720);
-		$("#ui").css("opactiy", 0);
+		$("#ui").css("opacity", 0);
 		console.log("ded");
 		$("#bg").css("background", "url(assets/gameOverScreen.png)");
 		player.inBattle= false;
