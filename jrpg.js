@@ -238,12 +238,18 @@ function battleActions(){
 				if (player.guarding) {
 					if (critRNG<=player.guardCritChance) {
 						let totalDPS =  player.damage*3-enemy.armor.toString();
+							if (totalDPS<=0) {
+								totalDPS=0;
+							}
 						battleIntro = ttx.fillText("A MASSIVE STRIKE! "+ totalDPS +" damage!",180,550);
 						console.log(totalDPS);
 						enemy.health -= player.damage*3-enemy.armor;
 							}
 								else{
 						let totalDPS =  player.damage-enemy.armor.toString();
+							if (totalDPS<=0) {
+								totalDPS=0;
+							}
 						battleIntro = ttx.fillText("You attack for "+ totalDPS +" damage!",180,550);
 						console.log(totalDPS);
 						enemy.health -= player.damage-enemy.armor;
@@ -251,12 +257,18 @@ function battleActions(){
 					}
 				else if (critRNG<=player.critChance) {
 				let totalDPS =  player.damage*3-enemy.armor.toString();
+							if (totalDPS<=0) {
+								totalDPS=0;
+							}
 				battleIntro = ttx.fillText("A MASSIVE STRIKE! "+ totalDPS +" damage!",180,550);
 				console.log(totalDPS);
 				enemy.health -= player.damage*3-enemy.armor;
 				}
 				else{
 				let totalDPS =  player.damage-enemy.armor.toString();
+							if (totalDPS<=0) {
+								totalDPS=0;
+							}
 				battleIntro = ttx.fillText("You attack for "+ totalDPS +" damage!",180,550);
 				console.log(totalDPS);
 				enemy.health -= player.damage-enemy.armor;
@@ -584,6 +596,7 @@ function battle(){
 		delayTakeDamage(function(){
 		player.canAttack = true;
 		console.log("BATTLE");
+		$("#ui").css("animation", "none");
 	},2000)
 	}
 }//end battle
