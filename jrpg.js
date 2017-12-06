@@ -883,7 +883,18 @@ function enemyDraw(){
 		let battleIntro = utx.fillText(enemy5.name + " appeared!",350,580);
 		}
 	}
-	///////////////////////else if enemy
+
+		else {
+		etx.drawImage(img[11],450,80);
+		if (!enemyLoaded) {
+			for(let k in enemy6) enemy[k]=enemy6[k];
+			enemyLoaded =true;
+		}
+		if (enemy.intro) {
+		let battleIntro = utx.fillText(enemy6.name + " appeared!",350,580);
+		}
+	}
+
 	}
 }
 }//end enemyDraw
@@ -939,6 +950,7 @@ death();
 
 function death(){
 	if (player.currentHealth<=0) {
+		player.canAttack = false;
 			delayTakeDamage(function(){
 		ttx.clearRect(0,0,1280,720);
 		$("#ui").css("animation", "death 6s linear");
