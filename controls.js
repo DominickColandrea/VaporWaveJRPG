@@ -43,7 +43,8 @@ preload(
     "assets/enemy2.png",
     "assets/enemy3.png",
     "assets/enemy4.png",
-    "assets/enemy5.png"
+    "assets/enemy5.png",
+    "assets/enemy6.png"
 );
 
         if(canGame()) {
