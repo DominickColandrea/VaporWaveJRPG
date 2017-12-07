@@ -134,6 +134,14 @@ let delay = (function(){
   };
 })();
 
+let delayEnemyDeath = (function(){
+  let timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
 let delayAttack = (function(){
   let timer = 0;
   return function(callback, ms){
