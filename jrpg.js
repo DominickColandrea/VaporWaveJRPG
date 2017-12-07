@@ -20,8 +20,10 @@ ttx.font = "italic 40px impact";
 	let enter=13,
 	GAMESTART=false,
 	enemyLoaded = false,
+	slothRNG,
 	attackRNG,
 	critRNG,
+	enemyStatusRNG,
 	enemyAttackRNG,
 	enemyRNG,
 	enemyItemDropRNG,
@@ -57,10 +59,11 @@ let player={
 	levelCap:20,
 	cooldown:0,
 	canAttack:false,
+	status:"",
 	alive:true
 }
 
-let items =["Melancholy P."];
+let items =["Sin Coin","Melancholy P."];
 
 let spells =[];
 
@@ -78,7 +81,8 @@ let enemy1={
 	armor:0,
 	exp:6,
 	intro:true,
-	item:"Melancholy P."
+	item:"Melancholy P.",
+	status:""
 }
 
 let enemy2={
@@ -91,7 +95,8 @@ let enemy2={
 	armor:0,
 	exp:3,
 	intro:true,
-	item:"Melancholy P."
+	item:"Sin Coin",
+	status:""
 }
 
 let enemy3={
@@ -104,7 +109,8 @@ let enemy3={
 	armor:0,
 	exp:10,
 	intro:true,
-	item:"Depression Box"
+	item:"Sin Coin",
+	status:"Sloth"
 }
 
 let enemy4={
@@ -117,7 +123,8 @@ let enemy4={
 	armor:1,
 	exp:35,
 	intro:true,
-	item:"Depression Box"
+	item:"Depression Box",
+	status:""
 }
 
 let enemy5={
@@ -130,7 +137,8 @@ let enemy5={
 	armor:6,
 	exp:27,
 	intro:true,
-	item:"Essence of Capitalism"
+	item:"Essence of Capitalism",
+	status:"Sloth"
 }
 
 let enemy6={
@@ -143,7 +151,8 @@ let enemy6={
 	armor:2,
 	exp:17,
 	intro:true,
-	item:"Essence of Capitalism"
+	item:"Essence of Capitalism",
+	status:""
 }
 
 let game ={
@@ -191,6 +200,7 @@ function movementOverworld(){
 				if (player.page ==3 && player.x >=535 && player.x <= 595 && player.y >= 145 && player.y <= 200) {
 					player.currentHealth = player.totalHealth;
 					player.currentMana = player.totalMana;
+					player.status ="";
 					console.log("healz");
 				}
 			break;
@@ -245,6 +255,18 @@ function battleActions(){
 				switch(true){
 			case player.selection==0:
 			ttx.clearRect(0,0,1280,720);
+			if (player.status =="Sloth") {
+				slothRNG = Math.floor((Math.random() * 100) + 0);
+			}
+				if (slothRNG>=70) {
+					battleIntro = ttx.fillText("You're too lathargic to move...",180,550);
+					player.guarding = false;
+					delayAttack(function(){
+						enemyAttack();
+					},1000);
+					enemy.intro= false;
+				}
+			else{
 			attackRNG = Math.floor((Math.random() * 100) + 0);
 			if (attackRNG<=player.hitChance) {
 				critRNG = Math.floor((Math.random() * 100) + 0);
@@ -299,6 +321,7 @@ function battleActions(){
 				enemyAttack();
 			},1000);
 			enemy.intro= false;
+	}//end sloth else
 			break;
 
 			case player.selection==1:
@@ -513,6 +536,13 @@ function itemUse(){
 					player.currentHealth+=15;
 				}
 			}
+
+			else if (items[items.length-1] == "Sin Coin") { //perhaps abbreviate
+				let itemUsed = items.pop();
+				battleIntro = ttx.fillText("You toss the "+itemUsed+" away and are lose your ailment!",180,550);
+				player.status = "";
+			}
+
 			else if (items[items.length-1] == "Depression Box") { //perhaps abbreviate
 				let itemUsed = items.pop();
 				battleIntro = ttx.fillText("You look into the "+itemUsed+" and regain some VP!",180,550);
@@ -543,6 +573,13 @@ function itemUse(){
 					player.currentHealth+=15;
 				}
 			}
+
+			else if (items[items.length-2] == "Sin Coin") { //perhaps abbreviate
+				let itemUsed = items.splice(-2,1);
+				battleIntro = ttx.fillText("You toss the "+itemUsed+" away and are lose your ailment!",180,550);
+				player.status = "";
+			}
+
 			else if (items[items.length-2] == "Depression Box") {
 				let itemUsed = items.splice(-2,1);
 				battleIntro = ttx.fillText("You look into the "+itemUsed+" and regain some VP!",180,550);
@@ -574,6 +611,13 @@ function itemUse(){
 					player.currentHealth+=15;
 				}
 			}
+
+			else if (items[items.length-3] == "Sin Coin") { //perhaps abbreviate
+				let itemUsed = items.splice(-3,1);
+				battleIntro = ttx.fillText("You toss the "+itemUsed+" away and are lose your ailment!",180,550);
+				player.status = "";
+			}
+
 			else if (items[items.length-3] == "Depression Box") {
 				let itemUsed = items.splice(-3,1);
 				battleIntro = ttx.fillText("You look into the "+itemUsed+" and regain some VP!",180,550);
@@ -850,7 +894,12 @@ function ui(){
 		}
 		}
 		utx.font = "italic 20px Times New Roman";
-		utx.fillText("Level: "+ player.level ,75,120);
+		if (player.status == "") {
+			utx.fillText("Level: "+ player.level ,75,120);
+		}
+		else{
+			utx.fillText(player.status,75,120);
+		}
 		utx.fillText("HP: "+player.currentHealth + "/"+ player.totalHealth ,75,160);
 		utx.fillText("VP: "+player.currentMana + "/"+ player.totalMana ,165,160);
 	}
@@ -963,6 +1012,7 @@ else if (enemyItemDropRNG>=90) {
 else{
 enemyAttackRNG = Math.floor((Math.random() * 100) + 0);
 if (enemyAttackRNG<=enemy.hitChance) {
+	enemyStatusRNG = Math.floor((Math.random() * 100) + 0);
 	$("#ui").css("animation", "takeDamage .5s linear");
 			delayTakeDamage(function(){
 		$("#ui").css("animation", "none");
@@ -971,11 +1021,19 @@ if (enemyAttackRNG<=enemy.hitChance) {
 		let totalEDPS = enemy.damage - player.armor.toString();
 		player.currentHealth-= enemy.damage - player.armor;
 		ttx.fillText("You are hit for "+ totalEDPS +" damage!",180,600);
+		if (enemyStatusRNG >=95 && enemy.status!="") {
+			ttx.fillText("You're traumatized with Sloth",180,680);
+			player.status = enemy.status;
+		}
 	}
 	else{
 		let totalEDPS = enemy.damage - player.guardArmor.toString();
 		player.currentHealth-= enemy.damage - player.guardArmor;
 		ttx.fillText("You are hit for "+ totalEDPS +" damage through your guard!",180,600);
+		if (enemyStatusRNG >=95 && enemy.status!="") {
+			ttx.fillText("You're traumatized with Sloth",180,680);
+			player.status = enemy.status;
+		}
 	}
 }
 else{
