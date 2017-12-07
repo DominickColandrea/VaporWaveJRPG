@@ -120,15 +120,28 @@ let enemy4={
 	item:"Depression Box"
 }
 
-let enemy5={ //add enemy5 info and add to encounter
+let enemy5={
 	name:"Narcoleptic Guest",
 	pages:[4,5,6,7],
 	health:1,
 	totalHealth:1,
 	damage:5,
-	hitChance:80,
+	hitChance:50,
 	armor:6,
 	exp:27,
+	intro:true,
+	item:"Essence of Capitalism"
+}
+
+let enemy6={
+	name:"Visions of Skepticism",
+	pages:[4,5,6,7],
+	health:15,
+	totalHealth:15,
+	damage:2,
+	hitChance:80,
+	armor:2,
+	exp:17,
 	intro:true,
 	item:"Essence of Capitalism"
 }
@@ -590,6 +603,7 @@ function itemUse(){
 function battle(){
 	if (player.alive==true && player.page!=3 && player.counter>=300 && Math.floor((Math.random() * 100) + 1)>=75) {
 		enemyRNG =Math.floor((Math.random() * 100) + 1);
+		$("#enemy").css("opacity",1);
 		player.counter=0;
 		player.inBattle =true;
 		$("#ui").css("animation", "battleIntro 1s linear");
@@ -925,7 +939,6 @@ else if (enemyItemDropRNG>=90) {
 	ttx.clearRect(0,0,1280,720);
 	player.inBattle =false;
 	enemyLoaded =false;
-	$("#enemy").css("opacity",1);
 		},3000);
 	if (player.exp >= player.levelCap) {
 		levelUp();
