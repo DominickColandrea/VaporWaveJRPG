@@ -626,6 +626,7 @@ function collisionLEFT(page){
 
 		case page == 3:
 		case page == 4:
+		case page == 5:
 	if (player.x<=1) {
 		draw.drawPlayer();
 		return false;
@@ -642,6 +643,7 @@ function collisionRIGHT(page){
 	switch(true){
 		case page == 1:
 		case page == 4:
+		case page == 5:
 	if (player.x>=1185) {
 		draw.drawPlayer();
 		return false;
@@ -672,7 +674,8 @@ function collisionUP(page){
 		break;
 
 		case page == 3:
-	if (player.y<=1) {
+		case page == 4:
+	if (player.y<=-20) {
 		pageChangeUp();
 		return false;
 	}
@@ -695,6 +698,7 @@ function collisionDOWN(page){
 	}
 		break;
 		case page == 4:
+		case page == 5:
 	if (player.y>=700) {
 		pageChangeDown();
 	}
@@ -745,6 +749,12 @@ function pageChangeUp(){
 			player.y=680;
 			player.page=4;
 		break;
+		case player.page == 4:
+			$("#bg").css("background", "url(assets/bg5.png)");
+			player.counter=0;
+			player.y=680;
+			player.page=5;
+		break;
 	}
 }//end pageChangeUp
 
@@ -755,6 +765,12 @@ function pageChangeDown(){
 			player.counter=0;
 			player.y=1;
 			player.page=3;
+		break;
+		case player.page == 5:
+			$("#bg").css("background", "url(assets/bg4.png)");
+			player.counter=0;
+			player.y=1;
+			player.page=4;
 		break;
 	}
 }//end pageChangeDown
