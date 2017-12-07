@@ -671,6 +671,7 @@ function collisionLEFT(page){
 		case page == 3:
 		case page == 4:
 		case page == 5:
+		case page == 6:
 	if (player.x<=1) {
 		draw.drawPlayer();
 		return false;
@@ -688,6 +689,7 @@ function collisionRIGHT(page){
 		case page == 1:
 		case page == 4:
 		case page == 5:
+		case page == 6:
 	if (player.x>=1185) {
 		draw.drawPlayer();
 		return false;
@@ -711,6 +713,7 @@ function collisionUP(page){
 	switch(true){
 		case page == 1:
 		case page == 2:
+		case page == 6:
 	if (player.y<=1) {
 		draw.drawPlayer();
 		return false;
@@ -736,6 +739,7 @@ function collisionDOWN(page){
 		case page == 1:
 		case page == 2:
 		case page == 3:
+		case page == 6:
 	if (player.y>=620) {
 		draw.drawPlayer();
 		return false;
@@ -799,6 +803,12 @@ function pageChangeUp(){
 			player.y=680;
 			player.page=5;
 		break;
+		case player.page == 5:
+			$("#bg").css("background", "url(assets/bg6.png)");
+			player.counter=0;
+			player.y=680;
+			player.page=6;
+		break;
 	}
 }//end pageChangeUp
 
@@ -815,6 +825,12 @@ function pageChangeDown(){
 			player.counter=0;
 			player.y=1;
 			player.page=4;
+		break;
+		case player.page == 6:
+			$("#bg").css("background", "url(assets/bg5.png)");
+			player.counter=0;
+			player.y=1;
+			player.page=5;
 		break;
 	}
 }//end pageChangeDown
@@ -1022,7 +1038,7 @@ if (enemyAttackRNG<=enemy.hitChance) {
 		player.currentHealth-= enemy.damage - player.armor;
 		ttx.fillText("You are hit for "+ totalEDPS +" damage!",180,600);
 		if (enemyStatusRNG >=95 && enemy.status!="") {
-			ttx.fillText("You're traumatized with Sloth",180,680);
+			ttx.fillText("You're traumatized with Sloth",180,670);
 			player.status = enemy.status;
 		}
 	}
@@ -1031,7 +1047,7 @@ if (enemyAttackRNG<=enemy.hitChance) {
 		player.currentHealth-= enemy.damage - player.guardArmor;
 		ttx.fillText("You are hit for "+ totalEDPS +" damage through your guard!",180,600);
 		if (enemyStatusRNG >=95 && enemy.status!="") {
-			ttx.fillText("You're traumatized with Sloth",180,680);
+			ttx.fillText("You're traumatized with Sloth",180,670);
 			player.status = enemy.status;
 		}
 	}
