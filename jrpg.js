@@ -903,6 +903,11 @@ function enemyDraw(){
 
 function enemyAttack(){
 	if (enemy.health<=0) {
+	$("#enemy").css("animation", "enemyDeath .5s linear");
+			delayEnemyDeath(function(){
+		$("#enemy").css("opacity",0);
+		$("#enemy").css("animation", "none");
+		},500);
 	player.canAttack = false;
 	ttx.clearRect(0,0,1280,720);
 	ttx.fillText("The "+enemy.name+" vanished!" ,180,550);
@@ -920,6 +925,7 @@ else if (enemyItemDropRNG>=90) {
 	ttx.clearRect(0,0,1280,720);
 	player.inBattle =false;
 	enemyLoaded =false;
+	$("#enemy").css("opacity",1);
 		},3000);
 	if (player.exp >= player.levelCap) {
 		levelUp();
