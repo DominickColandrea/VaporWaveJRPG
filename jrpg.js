@@ -611,6 +611,7 @@ function collisionLEFT(page){
 		break;
 
 		case page == 3:
+		case page == 4:
 	if (player.x<=1) {
 		draw.drawPlayer();
 		return false;
@@ -626,6 +627,7 @@ player.counter++;
 function collisionRIGHT(page){
 	switch(true){
 		case page == 1:
+		case page == 4:
 	if (player.x>=1185) {
 		draw.drawPlayer();
 		return false;
