@@ -29,6 +29,13 @@ canvas{
     opacity: 0; } 
 }
 
+@keyframes enemyDeath {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } 
+}
+
 @keyframes battleIntro {
   0% { transform: translate3d(-100%, 0, 0); }
   10% { transform: translate3d(-80%, 0, 0); }
