@@ -722,6 +722,7 @@ function collisionUP(page){
 
 		case page == 3:
 		case page == 4:
+		case page == 5:
 	if (player.y<=-20) {
 		pageChangeUp();
 		return false;
