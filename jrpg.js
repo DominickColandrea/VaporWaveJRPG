@@ -413,7 +413,7 @@ if (player.inMagicScreen) {
 			break;
 
 			case attack:
-			if (player.cooldown>=20 && player.canAttack) {
+			if (player.cooldown>=5 && player.canAttack) {
 				player.cooldown =0;
 			switch(true){
 	case player.magicSelection==0:
@@ -427,10 +427,10 @@ if (player.inMagicScreen) {
 	$("#enemy").css("animation", "enemyTakeDamage 0.5s linear");
 		delayTakeDamage(function(){
 			$("#enemy").css("animation", "none");
+			player.inMagicScreen =false;
 		},500);
 		delayAttack(function(){
 			enemyAttack();
-			player.inMagicScreen =false;
 		},1000);
 	}
 	else{
@@ -450,10 +450,10 @@ if (player.inMagicScreen) {
 	$("#enemy").css("animation", "enemyTakeDamage 0.5s linear");
 		delayTakeDamage(function(){
 			$("#enemy").css("animation", "none");
+			player.inMagicScreen =false;
 		},500);
 		delayAttack(function(){
 			enemyAttack();
-			player.inMagicScreen =false;
 		},1000);
 	}
 	else{
@@ -473,10 +473,10 @@ if (player.inMagicScreen) {
 	$("#enemy").css("animation", "enemyTakeDamage 0.5s linear");
 		delayTakeDamage(function(){
 			$("#enemy").css("animation", "none");
+			player.inMagicScreen =false;
 		},500);
 		delayAttack(function(){
 			enemyAttack();
-			player.inMagicScreen =false;
 		},1000);
 	}
 	else{
