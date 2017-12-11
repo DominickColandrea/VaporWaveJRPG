@@ -86,27 +86,22 @@ canvas{
 
 @keyframes death {
   20% {
-    transform: rotate(5deg) translate3d(-1px, 0, 0);
-    opacity: 0.5;
+    opacity: 0.2;
   }
 
   40% {
-    transform: rotate(0deg) translate3d(-1px, 0, 0);
     opacity: 1;
   }
 
   60% {
-    transform: rotate(-5deg) translate3d(-1px, 0, 0);
+    opacity: 0.2;
+  }
+
+  80% {
     opacity: 0.5;
   }
 
-  90% {
-    transform: rotate(0deg) translate3d(-1px, 0, 0);
-    opacity: 0.3;
-  }
-
   100% {
-    transform: rotate(0deg)  translate3d(-1px, 0, 0);
     opacity: 0;
   }
 }

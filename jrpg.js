@@ -32,7 +32,7 @@ ttx.font = "italic 40px impact";
 let player={
 	level:1,
 	page:1,
-	currentHealth:13,
+	currentHealth:1,
 	totalHealth:13,
 	currentMana:5,
 	totalMana:5,
@@ -1116,8 +1116,8 @@ function death(){
 		player.canAttack = false;
 			delayTakeDamage(function(){
 		ttx.clearRect(0,0,1280,720);
-		$("#ui").css("animation", "death 6s linear");
-		$("#bText").css("animation", "death 6s linear");
+		$("#ui").css("animation", "death 4s linear");
+		$("#bText").css("animation", "death 4s linear");
 		ttx.fillText("A Fatal Blow!",510,590);
 		},1000);
 
@@ -1130,7 +1130,7 @@ function death(){
 		player.page=0;
 		player.alive=false;
 
-		},6000);
+		},4000);
 	}
 } //end death
 
