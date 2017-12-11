@@ -1040,7 +1040,7 @@ function enemyDraw(){
 function enemyAttack(){
 	player.cooldown = 0;
 	if (enemy.health<=0) {
-		if (enemy.name = "Corporeal Corporation") {
+		if (enemy.name == "Corporeal Corporation") {
 			boss.alive = false;
 		}
 	$("#enemy").css("animation", "enemyDeath .5s linear");
