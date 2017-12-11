@@ -57,7 +57,6 @@ let player={
 	itemSelection:0,
 	exp:0,
 	levelCap:20,
-	cooldown:0,
 	canAttack:false,
 	status:"",
 	alive:true
@@ -168,7 +167,6 @@ let game ={
 			battleActions();
 			magic();
 			itemScreen();
-			player.cooldown++;
 		},80);
 	}
 }
@@ -250,8 +248,8 @@ function battleActions(){
 			break;
 
 			case attack:
-			if (player.cooldown>=20 && player.canAttack) {
-				player.cooldown =0;
+			if (player.canAttack) {
+				player.canAttack = false;
 				switch(true){
 			case player.selection==0:
 			ttx.clearRect(0,0,1280,720);
@@ -329,6 +327,7 @@ function battleActions(){
 			player.guarding = false;
 				if (spells.length ==0 ) {
 					battleIntro = ttx.fillText("You don't have any spells.",180,550);
+					player.canAttack = true;
 				}
 				else{
 					player.inMagicScreen =true;
@@ -341,6 +340,7 @@ function battleActions(){
 			player.guarding = false;
 				if (items.length ==0 ) {
 					battleIntro = ttx.fillText("You don't have any items.",180,550);
+					player.canAttack = true;
 				}
 				else{
 					player.inItemScreen =true;
@@ -349,7 +349,6 @@ function battleActions(){
 			break;
 
 			case player.selection==3:
-			if (player.canAttack) {
 			ttx.clearRect(0,0,1280,720);
 				battleIntro = ttx.fillText("You take a defensive stance!",180,550);
 				player.guarding = true;
@@ -357,11 +356,9 @@ function battleActions(){
 				enemyAttack();
 			},1000);
 				enemy.intro= false;
-			}
 			break;
 
 			case player.selection==4:
-			if (player.canAttack) {
 			attackRNG = Math.floor((Math.random() * 100) + 0);
 			ttx.clearRect(0,0,1280,720);
 			player.guarding = false;
@@ -380,7 +377,6 @@ function battleActions(){
 						},1000);
 				}
 				enemy.intro= false;
-			}
 			break;
 		}
 	}
@@ -409,12 +405,12 @@ if (player.inMagicScreen) {
 
 			case kstate[0]:
 			player.inMagicScreen = false;
+			player.canAttack = true;
 				console.log(player.magicSelection);
 			break;
 
 			case attack:
-			if (player.cooldown>=5 && player.canAttack) {
-				player.cooldown =0;
+			if (player.canAttack) {
 			switch(true){
 	case player.magicSelection==0:
 	console.log("Nostalgia");
@@ -510,12 +506,12 @@ if (player.inItemScreen) {
 
 			case kstate[0]:
 			player.inItemScreen = false;
+			player.canAttack = true;
 				console.log(player.itemSelection);
 			break;
 
 			case attack:
-			if (player.cooldown>=20 && player.canAttack) {
-				player.cooldown =0;
+			if (player.canAttack) {
 				itemUse();
 			}
 			break;
@@ -1033,6 +1029,7 @@ if (enemyAttackRNG<=enemy.hitChance) {
 	$("#ui").css("animation", "takeDamage .5s linear");
 			delayTakeDamage(function(){
 		$("#ui").css("animation", "none");
+		player.canAttack = true;
 		},500);
 	if (!player.guarding) {
 		let totalEDPS = enemy.damage - player.armor.toString();
@@ -1055,6 +1052,9 @@ if (enemyAttackRNG<=enemy.hitChance) {
 }
 else{
 	ttx.fillText("A nimble dodge!",180,600);
+				delayTakeDamage(function(){
+		player.canAttack = true;
+		},500);
 }
 death();
 }
