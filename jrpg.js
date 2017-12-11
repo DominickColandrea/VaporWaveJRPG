@@ -58,6 +58,7 @@ let player={
 	exp:0,
 	levelCap:20,
 	canAttack:false,
+	cooldown:0,
 	status:"",
 	alive:true
 }
@@ -170,6 +171,12 @@ let game ={
 		},80);
 	}
 }
+
+let magicCoolDown = setInterval(function(){
+	if (player.inMagicScreen || player.inItemScreen) {
+		player.cooldown++;
+	}
+		},100);
 
       let draw = {
       	drawPlayer() {
@@ -406,11 +413,13 @@ if (player.inMagicScreen) {
 			case kstate[0]:
 			player.inMagicScreen = false;
 			player.canAttack = true;
+			player.cooldown = 0;
 				console.log(player.magicSelection);
 			break;
 
 			case attack:
-			if (player.canAttack) {
+			if (player.cooldown>=5) {
+				player.cooldown=0;
 			switch(true){
 	case player.magicSelection==0:
 	console.log("Nostalgia");
@@ -507,11 +516,15 @@ if (player.inItemScreen) {
 			case kstate[0]:
 			player.inItemScreen = false;
 			player.canAttack = true;
+			player.cooldown = 0;
 				console.log(player.itemSelection);
 			break;
 
 			case attack:
-			if (player.canAttack) {
+			if (player.cooldown>=5) {
+				player.canAttack = false;
+				player.cooldown = 0;
+				player.inItemScreen =false;
 				itemUse();
 			}
 			break;
@@ -636,7 +649,6 @@ function itemUse(){
 	}
 	delayAttack(function(){
 		enemyAttack();
-		player.inItemScreen =false;
 	},1000);
 }//itemUse
 
@@ -994,6 +1006,7 @@ function enemyDraw(){
 }//end enemyDraw
 
 function enemyAttack(){
+	player.cooldown = 0;
 	if (enemy.health<=0) {
 	$("#enemy").css("animation", "enemyDeath .5s linear");
 			delayEnemyDeath(function(){
@@ -1131,6 +1144,7 @@ GAMESTART=true;
 game.start();
 //music();
 fadeIntro();
+magicCoolDown;
 }
 }); //end one click
 
