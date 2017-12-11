@@ -32,7 +32,7 @@ ttx.font = "italic 40px impact";
 let player={
 	level:1,
 	page:1,
-	currentHealth:1,
+	currentHealth:13,
 	totalHealth:13,
 	currentMana:5,
 	totalMana:5,
