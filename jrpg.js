@@ -115,7 +115,7 @@ let enemy3={
 
 let enemy4={
 	name:"TordLord",
-	pages:[4,5,6,7],
+	pages:[4,5,6],
 	health:12,
 	totalHealth:12,
 	damage:3,
@@ -129,7 +129,7 @@ let enemy4={
 
 let enemy5={
 	name:"Narcoleptic Guest",
-	pages:[4,5,6,7],
+	pages:[4,5,6],
 	health:1,
 	totalHealth:1,
 	damage:5,
@@ -143,7 +143,7 @@ let enemy5={
 
 let enemy6={
 	name:"Visions of Skepticism",
-	pages:[4,5,6,7],
+	pages:[4,5,6],
 	health:15,
 	totalHealth:15,
 	damage:2,
@@ -153,6 +153,21 @@ let enemy6={
 	intro:true,
 	item:"Essence of Capitalism",
 	status:""
+}
+
+let boss={
+	name:"Corporeal Corporation",
+	pages:[7],
+	health:50,
+	totalHealth:50,
+	damage:6,
+	hitChance:100,
+	armor:4,
+	exp:0,
+	intro:true,
+	item:"",
+	status:"Sloth",
+	alive:true
 }
 
 let game ={
@@ -207,6 +222,11 @@ function movementOverworld(){
 					player.currentMana = player.totalMana;
 					player.status ="";
 					console.log("healz");
+				}
+				else if (player.page ==6 && player.x >=0 && player.x <= 135 && player.y >= 0 && player.y <= 60) {
+					console.log("boss bois");
+					player.page = 7;
+					$("#bg").css("background", "url(assets/bg7.png)");
 				}
 			break;
 			case kstate[0]:
@@ -968,7 +988,7 @@ function enemyDraw(){
 		}
 	}
 }
-	else if (player.page>=4 && player.page<=7 && !player.page<=0) { //meh on syntax
+	else if (player.page>=4 && player.page<=6 && !player.page<=0) { //meh on syntax
 		if (enemyRNG<=33) {
 		etx.drawImage(img[9],450,80);
 		if (!enemyLoaded) {
@@ -1002,12 +1022,27 @@ function enemyDraw(){
 	}
 
 	}
+
+	else{
+	etx.drawImage(img[12],450,80);
+		if (!enemyLoaded) {
+			for(let k in boss) enemy[k]=boss[k];
+			enemyLoaded =true;
+		}
+		if (enemy.intro) {
+		let battleIntro = utx.fillText(boss.name + " looms near!",300,580);
+		}
+	}
+
 }
 }//end enemyDraw
 
 function enemyAttack(){
 	player.cooldown = 0;
 	if (enemy.health<=0) {
+		if (enemy.name = "Corporeal Corporation") {
+			boss.alive = false;
+		}
 	$("#enemy").css("animation", "enemyDeath .5s linear");
 			delayEnemyDeath(function(){
 		$("#enemy").css("opacity",0);
@@ -1030,6 +1065,9 @@ else if (enemyItemDropRNG>=90) {
 	ttx.clearRect(0,0,1280,720);
 	player.inBattle =false;
 	enemyLoaded =false;
+	if (boss.alive ==false) {
+		console.log("wiiiiiiiiiiiiiiin");
+	}
 		},3000);
 	if (player.exp >= player.levelCap) {
 		levelUp();
