@@ -469,7 +469,7 @@ if (player.inMagicScreen) {
 	if (player.currentMana>=10) {
 		player.currentMana-=10;
 	let totalMDPST =  player.magicDamage*1.5-enemy.armor.toString();
-	battleIntro = ttx.fillText(enemy.name+" takes "+ totalMDPSF +" damage from Aesthetics!",180,550);
+	battleIntro = ttx.fillText(enemy.name+" takes "+ totalMDPST +" damage from Aesthetics!",180,550);
 	console.log(totalMDPST);
 	enemy.health -= player.magicDamage-enemy.armor;
 	$("#enemy").css("animation", "enemyTakeDamage 0.5s linear");
@@ -1024,13 +1024,13 @@ function enemyDraw(){
 	}
 
 	else{
-	etx.drawImage(img[12],450,80);
+	etx.drawImage(img[12],450,90);
 		if (!enemyLoaded) {
 			for(let k in boss) enemy[k]=boss[k];
 			enemyLoaded =true;
 		}
 		if (enemy.intro) {
-		let battleIntro = utx.fillText(boss.name + " looms near!",300,580);
+		let battleIntro = utx.fillText(boss.name + " looms near!",270,580);
 		}
 	}
 
