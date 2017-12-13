@@ -700,6 +700,7 @@ function collisionLEFT(page){
 		case page == 4:
 		case page == 5:
 		case page == 6:
+		case page == 7:
 	if (player.x<=1) {
 		draw.drawPlayer();
 		return false;
@@ -718,6 +719,7 @@ function collisionRIGHT(page){
 		case page == 4:
 		case page == 5:
 		case page == 6:
+		case page == 7:
 	if (player.x>=1185) {
 		draw.drawPlayer();
 		return false;
@@ -742,6 +744,7 @@ function collisionUP(page){
 		case page == 1:
 		case page == 2:
 		case page == 6:
+		case page == 7:
 	if (player.y<=1) {
 		draw.drawPlayer();
 		return false;
@@ -769,6 +772,7 @@ function collisionDOWN(page){
 		case page == 2:
 		case page == 3:
 		case page == 6:
+		case page == 7:
 	if (player.y>=620) {
 		draw.drawPlayer();
 		return false;
