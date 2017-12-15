@@ -1044,19 +1044,30 @@ function enemyDraw(){
 function enemyAttack(){
 	player.cooldown = 0;
 	if (enemy.health<=0) {
-		if (enemy.name == "Corporeal Corporation") {
-			boss.alive = false;
-		}
-	$("#enemy").css("animation", "enemyDeath .5s linear");
-			delayEnemyDeath(function(){
-		$("#enemy").css("opacity",0);
-		$("#enemy").css("animation", "none");
-		},500);
 	player.canAttack = false;
 	ttx.clearRect(0,0,1280,720);
 	ttx.fillText("The "+enemy.name+" vanished!" ,180,550);
 	ttx.fillText("You got "+enemy.exp+" exp!" ,180,630);
 	enemyItemDropRNG = Math.floor((Math.random() * 100) + 0);
+
+		if (enemy.name == "Corporeal Corporation") {
+			boss.alive = false;
+		$("#enemy").css("animation", "bossDeath .3s linear infinite");
+		$("#ui").css("animation", "bossDeath .3s linear infinite");
+			delayEnemyDeath(function(){
+		$("#enemy").css("opacity",0);
+		$("#enemy").css("animation", "none");
+		$("#ui").css("animation", "none");
+		},3000);
+		}
+
+		else{
+	$("#enemy").css("animation", "enemyDeath .5s linear");
+			delayEnemyDeath(function(){
+		$("#enemy").css("opacity",0);
+		$("#enemy").css("animation", "none");
+		},500);
+}
 if (enemyItemDropRNG>=90 && items.length ==5) {
 	console.log("no dropparinooooo");
 }
