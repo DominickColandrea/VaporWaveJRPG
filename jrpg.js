@@ -1,6 +1,6 @@
 $(function(){
 	"use strict";
-	let b = document.getElementById("bg"); //eLayer
+	let b = document.getElementById("bg"); //back Layer
 	let btx = b.getContext("2d");
 
 	let c = document.getElementById("game");//game layer
@@ -30,6 +30,8 @@ ttx.font = "italic 40px impact";
 	battleIntro;
 
 let player={
+	height:96,
+	width:96,
 	level:1,
 	page:1,
 	currentHealth:13,
@@ -173,7 +175,6 @@ let boss={
 let game ={
 		start(){
 		setInterval(function(){
-			drawOverLays();
 			InitKeyboard();
 			movementOverworld();
 			ui();
@@ -191,7 +192,7 @@ let magicCoolDown = setInterval(function(){
 	if (player.inMagicScreen || player.inItemScreen) {
 		player.cooldown++;
 	}
-		},100);
+		},500);
 
       let draw = {
       	drawPlayer() {
@@ -213,8 +214,13 @@ let magicCoolDown = setInterval(function(){
 
 function movementOverworld(){
 	if (!player.inBattle) {
+		ctx.clearRect(player.x,player.y,player.width,player.height);
 		switch(true){
-			
+
+			case optionsScreen:
+				console.log("NUT");
+			break;
+
 			case attack:
 				draw.drawPlayer();
 				if (player.page ==3 && player.x >=535 && player.x <= 595 && player.y >= 145 && player.y <= 200) {
@@ -251,7 +257,6 @@ function movementOverworld(){
 
 			default:
 				draw.drawPlayer();
-				console.log(player.x+"    "+player.y);
 			break;
 		}
 	}
@@ -394,7 +399,9 @@ function battleActions(){
 					delayRunning(function(){
 						player.inBattle = false;
 						enemyLoaded =false;
+						utx.clearRect(0,0,1280,720);
 						ttx.clearRect(0,0,1280,720);
+						etx.clearRect(0,0,1280,720);
 					},1500)
 					}
 				else{
@@ -438,7 +445,7 @@ if (player.inMagicScreen) {
 			break;
 
 			case attack:
-			if (player.cooldown>=5) {
+			if (player.cooldown>=2) {
 				player.cooldown=0;
 			switch(true){
 	case player.magicSelection==0:
@@ -541,7 +548,7 @@ if (player.inItemScreen) {
 			break;
 
 			case attack:
-			if (player.cooldown>=5) {
+			if (player.cooldown>=2) {
 				player.canAttack = false;
 				player.cooldown = 0;
 				player.inItemScreen =false;
@@ -568,7 +575,7 @@ function itemUse(){
 
 			else if (items[items.length-1] == "Sin Coin") { //perhaps abbreviate
 				let itemUsed = items.pop();
-				battleIntro = ttx.fillText("You toss the "+itemUsed+" away and are lose your ailment!",180,550);
+				battleIntro = ttx.fillText("You toss the "+itemUsed+" away and lose your ailment!",180,550);
 				player.status = "";
 			}
 
@@ -870,6 +877,7 @@ function pageChangeDown(){
 
 function ui(){
 	if (player.inBattle) {
+		utx.clearRect(0,0,1280,720);
 		$('#ui').css('background-image','url(assets/battleScreen.png)');
 		if (player.inMagicScreen) {
 			utx.font = "italic 20px impact";
@@ -959,6 +967,7 @@ function ui(){
 
 function enemyDraw(){
 	if (player.inBattle) {
+	etx.clearRect(100,100,1280,720);
 		utx.font = "italic 60px impact";
 	if (player.page ==1 || player.page==2) { //meh on syntax
 		if (enemyRNG<=33) {
@@ -1021,7 +1030,7 @@ function enemyDraw(){
 			enemyLoaded =true;
 		}
 		if (enemy.intro) {
-		let battleIntro = utx.fillText(enemy6.name + " appeared!",350,580);
+		let battleIntro = utx.fillText(enemy6.name + " appeared!",310,580);
 		}
 	}
 
@@ -1078,6 +1087,7 @@ else if (enemyItemDropRNG>=90) {
 	delayEndBattle(function(){
 	player.exp+=enemy.exp;
 	ttx.clearRect(0,0,1280,720);
+	utx.clearRect(0,0,1280,720);
 	player.inBattle =false;
 	enemyLoaded =false;
 	if (boss.alive ==false) {
@@ -1183,13 +1193,6 @@ ttx.fillStyle = '#C6ACC9';
 	}
 	},200);
 } //end levelUp
-
-function drawOverLays(){
-	btx.clearRect(0,0,1280,720);
-	ctx.clearRect(0,0,1280,720);
-	utx.clearRect(0,0,1280,720);
-	etx.clearRect(0,0,1280,720);
-} //end drawOverLays
 
 $(document).on("keypress",function(e){
 	if (e.which ==enter &! GAMESTART) {

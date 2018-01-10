@@ -19,7 +19,8 @@ keyDown=40,
 keyDown2=83,
 keyAttack=32,
 keyAttack2=90,
-options = false;
+optionToggle =69;
+let optionsScreen = false;
 let attack = false;
 let kstate =[false, false, false, false];
 
@@ -187,6 +188,10 @@ function InitKeyboard(){
 	if (controller ==false) {
 	$(window).keydown(function(e){
 		switch(true){
+			case e.keyCode ==optionToggle:
+			optionsScreen = !optionsScreen;
+			break;
+
 			case e.keyCode ==keyAttack || e.keyCode ==keyAttack2:
 			attack =true;
 			break;
