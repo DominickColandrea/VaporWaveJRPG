@@ -217,8 +217,49 @@ function movementOverworld(){
 		ctx.clearRect(player.x,player.y,player.width,player.height);
 		switch(true){
 
-			case optionsScreen:
+			case optionsScreen://////////////////////////////work on item and other ui stuff health/mana
+			etx.clearRect(0,0,1280,720);
+			etx.font = "italic 25px impact";
 				console.log("NUT");
+				$('#enemy').css('background-image','url(assets/optionsScreen.png)');
+				etx.fillText("S p e l l s",935,220);
+			let y =340;
+			for (let i = spells.length - 1; i >= 0; i--) {
+				etx.font = "italic 60px impact";
+				etx.fillText(spells[i],870,y);
+				y+=150;
+			}
+	switch(true){
+			case kstate[2]:
+			if (player.itemSelection>0) {
+				player.itemSelection--;
+			}
+				console.log(player.itemSelection);
+			break;
+
+			case kstate[3]:
+			if (player.itemSelection<items.length-1) {
+				player.itemSelection++;
+			}
+				console.log(player.itemSelection);
+			break;
+
+			case kstate[0]:
+			player.inItemScreen = false;
+			player.canAttack = true;
+			player.cooldown = 0;
+				console.log(player.itemSelection);
+			break;
+
+			case attack:
+			if (player.cooldown>=2) {
+				player.canAttack = false;
+				player.cooldown = 0;
+				player.inItemScreen =false;
+				itemUse();
+			}
+			break;
+}
 			break;
 
 			case attack:
@@ -257,6 +298,8 @@ function movementOverworld(){
 
 			default:
 				draw.drawPlayer();
+				$('#enemy').css('background-image','none');
+				etx.clearRect(0,0,1280,720);
 			break;
 		}
 	}
@@ -957,8 +1000,8 @@ function ui(){
 		else{
 			utx.fillText(player.status,75,120);
 		}
-		utx.fillText("HP: "+player.currentHealth + "/"+ player.totalHealth ,75,160);
-		utx.fillText("VP: "+player.currentMana + "/"+ player.totalMana ,165,160);
+		utx.fillText("HP:"+player.currentHealth + "/"+ player.totalHealth ,75,160);
+		utx.fillText("VP:"+player.currentMana + "/"+ player.totalMana ,165,160);
 	}
 	else{
 		$('#ui').css('background-image','none');
@@ -1148,6 +1191,8 @@ function death(){
 
 		delayAttack(function(){
 		ttx.clearRect(0,0,1280,720);
+		utx.clearRect(0,0,1280,720);
+		etx.clearRect(0,0,1280,720);
 		$("#ui").css("opacity", 0);
 		console.log("ded");
 		$("#bg").css("background", "url(assets/gameOverScreen.png)");
@@ -1187,18 +1232,35 @@ ttx.fillStyle = '#C6ACC9';
 		spells.unshift("Aesthetics");
 		ttx.fillText("You learned Aesthetics!" ,610,670);
 	}
-	else if (player.level ==12) {
+	else if (player.level ==9) {
 		spells.unshift("Wave");
 		ttx.fillText("You learned Wave!" ,610,670);
 	}
 	},200);
 } //end levelUp
 
+function stopAudio(sound){
+  $(sound).trigger('pause');
+  $(sound).prop("currentTime",0);
+}//end stopAudio
+
+function music(){
+	switch(true){
+		case player.inBattle:
+		console.log("battle music");
+		break;
+		case !player.inBattle:
+		stopAudio(".music");
+		$("#overworld").trigger("play");
+		break;
+	}
+}//end music
+
 $(document).on("keypress",function(e){
 	if (e.which ==enter &! GAMESTART) {
 GAMESTART=true;
 game.start();
-//music();
+music();
 fadeIntro();
 magicCoolDown;
 }
